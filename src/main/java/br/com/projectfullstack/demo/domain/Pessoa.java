@@ -2,8 +2,8 @@ package br.com.projectfullstack.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.io.Serial;
@@ -13,8 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity
-@ToString(onlyExplicitlyIncluded = true)
+@MappedSuperclass
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Pessoa implements Serializable {
 
@@ -22,7 +21,6 @@ public abstract class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @ToString.Include
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
@@ -30,19 +28,18 @@ public abstract class Pessoa implements Serializable {
     protected String nome;
 
     @CPF
-    @ToString.Include
     @Column(unique = true)
     @EqualsAndHashCode.Include
     protected String cpf;
 
-    @CPF
+    @Email
     @Column(unique = true)
     protected String email;
 
     protected String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PERFIS")
+    @CollectionTable(name = "tb_perfis")
     protected Set<Integer> perfis = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")
