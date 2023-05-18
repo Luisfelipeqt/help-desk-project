@@ -1,1 +1,2 @@
-# help-desk-project
+### Projeto Full Stack para um serviço de help desk
+
